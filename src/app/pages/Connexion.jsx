@@ -20,7 +20,7 @@ const Connexion = () => {
 
     try {
       const response = await fetch(
-        `${URL_FRONT}/api/auth/connexion`,
+        "https://backend-node-8xuh.onrender.com/api/auth/connexion",
         {
           method: "POST",
           headers: {
