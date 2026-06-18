@@ -7,7 +7,7 @@ const Questions = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/questions")
+      .get(import.meta.env.VITE_QUESTION_API_URL)
       .then((res) => {
         setQuestions(res.data);
       })
