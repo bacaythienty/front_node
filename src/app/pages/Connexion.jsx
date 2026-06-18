@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-const URL_FRONT = import.meta.env.VITE_URL_FRONT;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Connexion = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const Connexion = () => {
 
     try {
       const response = await fetch(
-        `${URL_FRONT}/api/auth/connexion`,
+        `${API_URL}/api/auth/connexion`,
         {
           method: "POST",
           headers: {
