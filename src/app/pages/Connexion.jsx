@@ -45,11 +45,11 @@ const Connexion = () => {
 
         navigate("/");
       } else {
-        toast.error(result.message || "Identifiants incorrects");
+        alert(result.message || "Identifiants incorrects");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Erreur serveur. Veuillez réessayer.");
+      alert("Erreur serveur. Veuillez réessayer.");
     }
   };
 
