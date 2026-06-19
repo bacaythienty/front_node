@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-
+import Questions from './../../composants/Questions';
+const token = localStorage.getItem("token");
+const Questions_API_URL = import.meta.env.VITE_QUESTION_API_URL;
 const QuestionForm = () => {
   const [formData, setFormData] = useState({
     titre: "",
@@ -14,20 +16,35 @@ const QuestionForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log(formData);
+  try {
+    const res = await axios.post(
+      Questions_API_URL,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-    alert("Question publiée avec succès !");
+    alert("Question publiée avec succès");
 
     setFormData({
-      titre: "",
+      title: "",
       description: "",
       tags: "",
     });
-  };
 
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+
+    alert("Erreur lors de la publication");
+  }
+};
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-5">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
@@ -49,8 +66,8 @@ const QuestionForm = () => {
 
             <input
               type="text"
-              name="titre"
-              value={formData.titre}
+              name="title"
+              value={formData.title}
               onChange={handleChange}
               placeholder="Ex: Comment utiliser useEffect dans React ?"
               className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
