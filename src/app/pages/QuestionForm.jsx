@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 const Questions_API_URL = import.meta.env.VITE_QUESTION_API_URL;
 const QuestionForm = () => {
   const [formData, setFormData] = useState({
-    titre: "",
+    title: "",
     description: "",
     tags: "",
   });
