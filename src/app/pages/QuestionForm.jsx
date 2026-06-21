@@ -41,7 +41,9 @@ const handleSubmit = async (e) => {
 
     console.log(res.data);
   } catch (error) {
-    console.log(error);
+  console.log("Status :", error.response?.status);
+  console.log("Message :", error.response?.data);
+
 
     alert("Erreur lors de la publication");
   }
