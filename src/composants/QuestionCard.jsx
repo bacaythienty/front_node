@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   ThumbsUp,
   MessageCircle,
@@ -8,6 +9,35 @@ import {
 } from "lucide-react";
 
 const QuestionCard = ({ question }) => {
+  const [votes, setVotes] = useState(question.votes || 0);
+
+  const handleVote = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/questions/${question._id}/upvote`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setVotes(res.data.votes);
+    } catch (error) {
+      console.log(error.response?.data);
+      alert(
+        error.response?.data?.message ||
+          "Impossible de voter"
+      );
+    }
+  };
+
   return (
     <Link to={`/question/${question._id}`}>
       <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-lg transition duration-300 cursor-pointer">
@@ -23,7 +53,7 @@ const QuestionCard = ({ question }) => {
         </p>
 
         {/* Tags */}
-        {question.tags && question.tags.length > 0 && (
+        {question.tags?.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {question.tags.map((tag, index) => (
               <span
@@ -36,7 +66,7 @@ const QuestionCard = ({ question }) => {
           </div>
         )}
 
-        {/* Informations */}
+        {/* Infos */}
         <div className="flex flex-wrap justify-between items-center mt-5 text-sm text-gray-500 gap-3">
 
           {/* Auteur */}
@@ -52,21 +82,26 @@ const QuestionCard = ({ question }) => {
           <div className="flex items-center gap-1">
             <Calendar size={16} />
             <span>
-              {new Date(question.createdAt).toLocaleDateString()}
+              {new Date(
+                question.createdAt
+              ).toLocaleDateString()}
             </span>
           </div>
 
           {/* Votes */}
-          <div className="flex items-center gap-1">
+          <button
+            onClick={handleVote}
+            className="flex items-center gap-1 hover:text-blue-600"
+          >
             <ThumbsUp size={16} />
-            <span>{question.votes || 0} votes</span>
-          </div>
+            <span>{votes} votes</span>
+          </button>
 
           {/* Commentaires */}
           <div className="flex items-center gap-1">
             <MessageCircle size={16} />
             <span>
-              {question.commentaires?.length || 0} commentaires
+              {question.commentairesCount || 0} commentaires
             </span>
           </div>
 

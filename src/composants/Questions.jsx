@@ -5,15 +5,22 @@ import QuestionCard from "./QuestionCard";
 const Questions = () => {
   const [questions, setQuestions] = useState([]);
 
+  const fetchQuestions = async () => {
+    try {
+      const res = await axios.get(
+        import.meta.env.VITE_QUESTION_API_URL
+      );
+
+      setQuestions(res.data);
+
+      console.log(res.data); // vérification
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(import.meta.env.VITE_QUESTION_API_URL)
-      .then((res) => {
-        setQuestions(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchQuestions();
   }, []);
 
   return (
