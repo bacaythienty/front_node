@@ -70,13 +70,13 @@ const QuestionCard = ({ question }) => {
         <div className="flex flex-wrap justify-between items-center mt-5 text-sm text-gray-500 gap-3">
 
           {/* Auteur */}
-          <div className="flex items-center gap-1">
-            <User size={16} />
-            <span>
+        <div className="flex items-center gap-1">
+              <User size={16} />
+          <span>
               {question.author?.prenom || "Utilisateur"}{" "}
               {question.author?.nom || ""}
-            </span>
-          </div>
+          </span>
+        </div>
 
           {/* Date */}
           <div className="flex items-center gap-1">
