@@ -66,7 +66,8 @@ const QuestionCard = ({ question }) => {
 
       {/* Stats */}
 
-      <div className="flex gap-5 mt-4">
+      <div className="flex gap-5 mt-4 border border-red-500 p-2">
+  <span>VOTES BRUT : {String(question.votes)}</span>
 
 
        <div className="flex gap-1 items-center">
