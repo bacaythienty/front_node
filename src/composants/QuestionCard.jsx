@@ -14,7 +14,7 @@ const QuestionCard = ({ question }) => {
   return (
     <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-lg">
 
-      <Link to={`/detail/${question._id}`}>
+      <Link to={`/Detail/${question._id}`}>
 
         <h2 className="text-xl font-bold text-blue-600 mb-2">
           {question.title}
@@ -84,7 +84,7 @@ const QuestionCard = ({ question }) => {
             {question.commentairesCount || 0}
           </b>
           commentaires
-        </div>
+        </div> 
         
 
 
