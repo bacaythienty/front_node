@@ -11,11 +11,14 @@ const Questions = () => {
         import.meta.env.VITE_QUESTION_API_URL
       );
 
-      setQuestions(res.data);
+      console.log("Questions :", res.data);
 
-      console.log(res.data); // vérification
+      setQuestions(res.data);
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Erreur chargement questions :",
+        error
+      );
     }
   };
 
@@ -29,14 +32,18 @@ const Questions = () => {
         Toutes les questions
       </h1>
 
-      <div className="space-y-4">
-        {questions.map((question) => (
-          <QuestionCard
-            key={question._id}
-            question={question}
-          />
-        ))}
-      </div>
+      {questions.length === 0 ? (
+        <p>Aucune question disponible.</p>
+      ) : (
+        <div className="space-y-4">
+          {questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              question={question}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
