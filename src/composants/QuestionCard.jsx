@@ -68,11 +68,11 @@ const QuestionCard = ({ question }) => {
       <div className="flex gap-5 mt-4">
 
 
-        <div className="flex gap-1 items-center">
-          <ThumbsUp size={18}/>
-          <b>{question.votes || 0}</b>
-          votes
-        </div>
+       <div className="flex gap-1 items-center">
+                  <ThumbsUp size={18} />
+                  <b>{question.votes ?? 0}</b>
+                       votes
+       </div>
 
 
 
