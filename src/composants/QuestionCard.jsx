@@ -9,6 +9,7 @@ import {
 
 
 const QuestionCard = ({ question }) => {
+  console.log("Question :", question);
 
   return (
     <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-lg">
