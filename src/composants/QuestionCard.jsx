@@ -84,14 +84,7 @@ const QuestionCard = ({ question }) => {
           </b>
           commentaires
         </div>
-
-        <p className="text-red-500 font-bold">
-  TEST VOTES : {question.votes}
-</p>
-
-<div className="flex gap-5 mt-4">
-  ...
-</div>
+        
 
 
       </div>
