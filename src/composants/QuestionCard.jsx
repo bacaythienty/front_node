@@ -14,7 +14,7 @@ const QuestionCard = ({ question }) => {
   return (
     <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-lg">
 
-      <Link to={`/Detail/${question._id}`}>
+      <Link to={`/detail/${question._id}`}>
 
         <h2 className="text-xl font-bold text-blue-600 mb-2">
           {question.title}
