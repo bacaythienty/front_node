@@ -20,15 +20,15 @@ const App = () => {
          children :[
                {path:'/' , element:<Accueil/>},
                 //  route de la connexion
-               {path:'/connexion' , element:<Connexion/>},
+               {path:'connexion' , element:<Connexion/>},
                //  route de l'inscription
-               {path:'/inscription' , element:<Inscription/>},
+               {path:'inscription' , element:<Inscription/>},
                 //  route de profil
-                 {path:'/profil' , element:<Profil/>},
+                 {path:'profil' , element:<Profil/>},
                 //  route de creer question
-                 {path:'/ajouter_question' , element:<QuestionForm/>},
+                 {path:'ajouter_question' , element:<QuestionForm/>},
                 //  route de detail message
-             { path:'/detail/:id' , element:<Detail/> },
+             { path:'detail/:id' , element:<Detail/> },
               // {path:'/messages' , element:<Message/>},
 
         ]

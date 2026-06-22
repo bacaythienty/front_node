@@ -20,7 +20,7 @@ const Detail = () => {
       const res = await axios.get(
         `${API_URL}/api/questions/${id}`
       );
-
+      console.log("detail question :", res.data);
       setQuestion(res.data);
       setVotes(res.data.votes ?? 0);
 
@@ -85,7 +85,7 @@ const Detail = () => {
         </span>
 
         <span>
-          📅{" "}
+          {" "}
           {new Date(
             question.createdAt
           ).toLocaleDateString()}
