@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Inscription = () => {
@@ -15,7 +16,7 @@ const Inscription = () => {
     e.preventDefault();
 
     if (!prenom || !nom || !email || !password) {
-      alert("Veuillez remplir tous les champs");
+      toast.error("Veuillez remplir tous les champs");
       return;
     }
 
@@ -46,18 +47,17 @@ const Inscription = () => {
         );
         navigate("/connexion");
       } else {
-        toast.error(result.message || "Erreur lors de l'inscription");
+        toastify.error(result.message || "Erreur lors de l'inscription");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Erreur serveur. Veuillez réessayer.");
+      toastify.error("Erreur serveur. Veuillez réessayer.");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 via-emerald-600 to-teal-700 p-4">
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8">
-        
        
 
         {/* Titre */}

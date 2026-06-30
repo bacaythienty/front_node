@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
+
 
 const Commentaires = ({ questionId }) => {
   const [commentaire, setCommentaire] = useState("");
@@ -27,12 +29,12 @@ const Commentaires = ({ questionId }) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Connectez-vous pour commenter");
+      toast.error("Connectez-vous pour commenter");
       return;
     }
 
     if (!commentaire.trim()) {
-      alert("Veuillez écrire un commentaire");
+      toastify.error("Veuillez écrire un commentaire");
       return;
     }
 
@@ -54,7 +56,7 @@ const Commentaires = ({ questionId }) => {
 
     } catch (error) {
       console.log(error.response?.data);
-      alert("Erreur lors de l'ajout du commentaire");
+      toastify.error("Erreur lors de l'ajout du commentaire");
     }
   };
 

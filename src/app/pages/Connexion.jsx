@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Connexion = () => {
@@ -12,7 +13,7 @@ const Connexion = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Veuillez remplir tous les champs");
+      toast.error("Veuillez remplir tous les champs");
       return;
     }
 
@@ -39,15 +40,15 @@ const Connexion = () => {
           localStorage.setItem("user", JSON.stringify(result.user));
         }
 
-        alert(`Connexion réussie ${result.user.prenom} ${result.user.nom}`);
+        toast.success(`Connexion réussie ${result.user.prenom} ${result.user.nom}`);
 
         navigate("/");
       } else {
-        alert(result.message || "Identifiants incorrects");
+        toast.error(result.message || "Identifiants incorrects");
       }
     } catch (error) {
       console.error(error);
-      alert("Erreur serveur. Veuillez réessayer.");
+      toast.error("Erreur serveur. Veuillez réessayer.");
     }
   };
 

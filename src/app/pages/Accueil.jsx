@@ -28,12 +28,7 @@ const Accueil = () => {
             </p>
           </div>
 
-          <button
-            onClick={VerificationToken}
-            className="mt-6 md:mt-0 bg-white text-green-600 px-6 py-3 rounded-xl font-semibold shadow-md hover:scale-105 hover:bg-gray-100 transition-all"
-          >
-            + Ajouter une question
-          </button>
+         
         </div>
       </div>
 

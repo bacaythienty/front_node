@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
+
 
 const QuestionForm = () => {
   const Questions_API_URL = import.meta.env.VITE_QUESTION_API_URL;
@@ -33,17 +35,17 @@ const QuestionForm = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("Veuillez vous connecter avant de publier une question.");
+      toast.error("Veuillez vous connecter avant de publier une question.");
       return;
     }
 
     if (!formData.title.trim()) {
-      alert("Le titre est obligatoire");
+      toast.error("Le titre est obligatoire");
       return;
     }
 
     if (!formData.description.trim()) {
-      alert("La description est obligatoire");
+      toastify.error("La description est obligatoire");
       return;
     }
 
@@ -74,7 +76,7 @@ const QuestionForm = () => {
 
       console.log("Réponse :", response.data);
 
-      alert("Question publiée avec succès ✅");
+      toast.success("Question publiée avec succès ✅");
 
       handleReset();
     } catch (error) {
@@ -84,7 +86,7 @@ const QuestionForm = () => {
         error.response?.data?.message ||
         "Erreur lors de la publication de la question";
 
-      alert(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
