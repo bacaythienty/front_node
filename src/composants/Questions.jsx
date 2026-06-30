@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 
 const Questions = () => {
-  const API_URL = import.meta.env.VITE_QUESTION_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,12 +21,12 @@ const Questions = () => {
 
   const fetchQuestions = async () => {
     try {
-      setLoading(true);
+      setLoading(true);  
 
-      const res = await axios.get(API_URL, {
+      const res = await axios.get( `${API_URL}/api/questions`, {
         params: {
           tri,
-          tag,
+          tag, 
           recherche,
         },
       });
