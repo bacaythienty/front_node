@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Search, Filter, RefreshCw, PlusCircle } from "lucide-react";
+import {
+  Search,
+  Filter,
+  RefreshCw,
+  PlusCircle,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import QuestionCard from "./QuestionCard";
 
@@ -38,16 +43,29 @@ const Questions = () => {
     fetchQuestions();
   }, [tri, tag]);
 
+  const resetFiltres = () => {
+    setRecherche("");
+    setTag("");
+    setTri("recent");
+
+    axios
+      .get(API_URL)
+      .then((res) => {
+        setQuestions(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
       {/* Header */}
 
-      <div className="flex flex-col lg:flex-row justify-between items-center gap-5 mb-8">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-8">
 
         <div>
 
-          <h1 className="text-4xl font-bold text-gray-800">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">
             Toutes les questions
           </h1>
 
@@ -59,7 +77,7 @@ const Questions = () => {
 
         <Link
           to="/ajouter_question"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl flex items-center gap-2"
+          className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl flex justify-center items-center gap-2 shadow"
         >
           <PlusCircle size={20} />
           Poser une question
@@ -67,11 +85,11 @@ const Questions = () => {
 
       </div>
 
-      {/* Barre de recherche */}
+      {/* Recherche */}
 
-      <div className="bg-white rounded-xl shadow-md p-5 mb-8">
+      <div className="bg-white rounded-2xl shadow-lg p-5 mb-8">
 
-        <div className="grid lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
           {/* Recherche */}
 
@@ -86,8 +104,15 @@ const Questions = () => {
               type="text"
               placeholder="Rechercher une question..."
               value={recherche}
-              onChange={(e) => setRecherche(e.target.value)}
-              className="w-full border rounded-lg pl-10 pr-4 py-2"
+              onChange={(e) =>
+                setRecherche(e.target.value)
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  fetchQuestions();
+                }
+              }}
+              className="w-full border rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
             />
 
           </div>
@@ -103,10 +128,10 @@ const Questions = () => {
 
             <input
               type="text"
-              placeholder="Tag (React, Node...)"
+              placeholder="React, Node.js..."
               value={tag}
               onChange={(e) => setTag(e.target.value)}
-              className="w-full border rounded-lg pl-10 pr-4 py-2"
+              className="w-full border rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-green-500 outline-none"
             />
 
           </div>
@@ -116,7 +141,7 @@ const Questions = () => {
           <select
             value={tri}
             onChange={(e) => setTri(e.target.value)}
-            className="border rounded-lg px-4 py-2"
+            className="border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
           >
             <option value="recent">
               Plus récentes
@@ -137,25 +162,21 @@ const Questions = () => {
 
           {/* Boutons */}
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
 
             <button
               onClick={fetchQuestions}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg flex justify-center items-center gap-2"
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white rounded-lg flex justify-center items-center gap-2 py-3"
             >
               <RefreshCw size={18} />
               Actualiser
             </button>
 
             <button
-              onClick={() => {
-                setRecherche("");
-                setTag("");
-                setTri("recent");
-              }}
-              className="px-5 border rounded-lg hover:bg-gray-100"
+              onClick={resetFiltres}
+              className="flex-1 border rounded-lg hover:bg-gray-100 py-3"
             >
-              Reset
+              Réinitialiser
             </button>
 
           </div>
@@ -164,29 +185,33 @@ const Questions = () => {
 
       </div>
 
-      {/* Questions */}
+      {/* Loader */}
 
       {loading ? (
 
-        <div className="text-center py-16">
+        <div className="flex flex-col items-center py-20">
 
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-200 border-t-blue-600"></div>
 
-          <p className="mt-4 text-gray-500">
-            Chargement...
+          <p className="mt-5 text-gray-500">
+            Chargement des questions...
           </p>
 
         </div>
 
       ) : questions.length === 0 ? (
 
-        <div className="bg-white rounded-xl shadow p-10 text-center">
+        <div className="bg-white rounded-2xl shadow-lg p-10 text-center">
 
-          <h2 className="text-2xl font-semibold">
+          <div className="text-6xl mb-5">
+            📭
+          </div>
+
+          <h2 className="text-2xl font-bold">
             Aucune question trouvée
           </h2>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 mt-3">
             Essayez un autre mot-clé ou un autre tag.
           </p>
 

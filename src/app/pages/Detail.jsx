@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Commentaires from "../../composants/Commentaires";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import ReponseForm from "../../composants/ReponseForm";
 
 import {
@@ -10,7 +10,9 @@ import {
   useParams,
 } from "react-router-dom";
 
+
 const Detail = () => {
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -19,109 +21,173 @@ const Detail = () => {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+
   useEffect(() => {
     getQuestion();
   }, [id]);
 
+
   const getQuestion = async () => {
     try {
+
       const res = await axios.get(
         `${API_URL}/api/questions/${id}`
       );
 
       setQuestion(res.data);
       setVotes(res.data.votes || 0);
-    } catch (error) {
+
+    } catch(error){
       console.log(error);
     }
   };
 
+
   const handleVote = async () => {
+
     const token = localStorage.getItem("token");
 
-    if (!token) {
+    if(!token){
       toast.error("Connectez-vous pour voter");
       return;
     }
 
+
     try {
+
       await axios.post(
         `${API_URL}/api/questions/${id}/upvote`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
       );
 
-      await getQuestion();
-    } catch (error) {
+      getQuestion();
+
+
+    }catch(error){
+
       toast.error(
         error.response?.data?.message ||
-          "Erreur lors du vote"
+        "Erreur lors du vote"
       );
+
     }
+
   };
 
-  const supprimerQuestion = async () => {
+
+
+  const supprimerQuestion = async()=>{
+
     const token = localStorage.getItem("token");
 
-    if (!token) {
+    if(!token){
       toast.error("Connectez-vous");
       return;
     }
 
-    const confirmation = window.confirm(
+
+    if(!window.confirm(
       "Voulez-vous vraiment supprimer cette question ?"
-    );
+    )) return;
 
-    if (!confirmation) return;
 
-    try {
+    try{
+
       await axios.delete(
         `${API_URL}/api/questions/${id}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
         }
       );
 
-      toast.success("Question supprimée avec succès");
+
+      toast.success(
+        "Question supprimée avec succès"
+      );
 
       navigate("/");
-    } catch (error) {
-      console.log(error);
+
+
+    }catch(error){
 
       toast.error(
         error.response?.data?.message ||
-          "Erreur lors de la suppression"
+        "Erreur suppression"
       );
+
     }
+
   };
 
-  if (!question) {
+
+
+  if(!question){
+
     return (
-      <div className="text-center mt-10">
+      <div className="
+        text-center
+        mt-10
+        text-lg
+      ">
         Chargement...
       </div>
     );
+
   }
 
+
+
   return (
-    <div className="max-w-5xl mx-auto p-8">
-      {/* Titre */}
-      <h1 className="text-3xl font-bold mb-4">
+
+    <div className="
+      max-w-5xl
+      mx-auto
+      px-4
+      py-6
+      md:px-8
+    ">
+
+
+      {/* TITRE */}
+
+      <h1 className="
+        text-2xl
+        md:text-4xl
+        font-bold
+        mb-4
+        break-words
+      ">
+
         {question.title}
+
       </h1>
 
-      {/* Auteur */}
-      <div className="flex flex-wrap gap-5 text-gray-500 mb-6">
+
+
+      {/* AUTEUR */}
+
+      <div className="
+        flex
+        flex-col
+        sm:flex-row
+        gap-3
+        sm:gap-6
+        text-gray-500
+        mb-6
+      ">
+
         <span>
           👤 {question.author?.prenom}{" "}
           {question.author?.nom}
         </span>
+
 
         <span>
           📅{" "}
@@ -129,72 +195,218 @@ const Detail = () => {
             question.createdAt
           ).toLocaleDateString()}
         </span>
+
       </div>
 
-      {/* Description */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <p className="text-gray-700 leading-relaxed">
+
+
+
+      {/* DESCRIPTION */}
+
+      <div className="
+        bg-white
+        shadow
+        rounded-xl
+        p-4
+        md:p-6
+      ">
+
+        <p className="
+          text-gray-700
+          leading-relaxed
+          text-sm
+          md:text-base
+        ">
+
           {question.description}
+
         </p>
+
       </div>
 
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2 mt-5">
-        {question.tags?.map((tag, index) => (
+
+
+
+      {/* TAGS */}
+
+      <div className="
+        flex
+        flex-wrap
+        gap-2
+        mt-5
+      ">
+
+
+        {question.tags?.map(
+          (tag,index)=>(
+
           <span
             key={index}
-            className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
+            className="
+              bg-blue-100
+              text-blue-700
+              px-3
+              py-1
+              rounded-full
+              text-sm
+            "
           >
+
             #{tag}
+
           </span>
+
         ))}
+
       </div>
 
-      {/* Vote */}
+
+
+
+      {/* VOTE */}
+
       <div className="mt-6">
+
         <button
+
           onClick={handleVote}
-          className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded"
+
+          className="
+            w-full
+            sm:w-auto
+            bg-green-500
+            hover:bg-green-600
+            text-white
+            px-5
+            py-2
+            rounded-lg
+          "
+
         >
-          👍 {votes} vote{votes > 1 ? "s" : ""}
+
+          👍 {votes} vote{votes > 1 ? "s":""}
+
         </button>
+
+
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3 mt-5">
+
+
+
+      {/* ACTIONS */}
+
+      <div className="
+        flex
+        flex-col
+        sm:flex-row
+        gap-3
+        mt-5
+      ">
+
+
         <Link
+
           to={`/modifier_question/${question._id}`}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+
+          className="
+            text-center
+            bg-yellow-500
+            hover:bg-yellow-600
+            text-white
+            px-4
+            py-2
+            rounded-lg
+          "
+
         >
+
           Modifier
+
         </Link>
 
+
+
         <button
+
           onClick={supprimerQuestion}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+
+          className="
+            bg-red-600
+            hover:bg-red-700
+            text-white
+            px-4
+            py-2
+            rounded-lg
+          "
+
         >
+
           Supprimer
+
         </button>
+
+
       </div>
 
-      {/* Commentaires */}
+
+
+
+
+      {/* COMMENTAIRES */}
+
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">
+
+
+        <h2 className="
+          text-xl
+          md:text-2xl
+          font-bold
+          mb-4
+        ">
+
           Commentaires
+
         </h2>
 
-        <Commentaires questionId={id} />
+
+        <Commentaires questionId={id}/>
+
+
       </div>
 
-      {/* Formulaire de réponse */}
+
+
+
+      {/* REPONSE */}
+
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">
+
+
+        <h2 className="
+          text-xl
+          md:text-2xl
+          font-bold
+          mb-4
+        ">
+
           Répondre à la question
+
         </h2>
-        <ReponseForm questionId={id} />
+
+
+        <ReponseForm questionId={id}/>
+
+
       </div>
+
+
+
     </div>
+
   );
+
 };
+
 
 export default Detail;

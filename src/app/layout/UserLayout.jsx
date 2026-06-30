@@ -1,25 +1,25 @@
-import React from 'react'
-import Navbar from './../../composants/Navbar';
-import Footer from './../../composants/Footer';
-import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-
-
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../../composants/Navbar";
+import Footer from "../../composants/Footer";
 
 const UserLayout = () => {
   return (
-    <div>
-          {/* barre de nav */}
-         <Navbar/>
-            <div className="">
-                <Outlet/>
-                 {/* <ToastContainer /> */}
-            </div>
-        {/* pied de page  */}
-         <Footer/>
+    <div className="min-h-screen flex flex-col bg-gray-100">
+
+      {/* Navbar */}
+      <Navbar />
+
+      {/* Contenu */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      <Footer />
 
     </div>
-  )
-}
+  );
+};
 
-export default UserLayout
+export default UserLayout;

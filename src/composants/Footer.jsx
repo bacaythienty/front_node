@@ -4,29 +4,38 @@ import { NavLink } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="bg-slate-900 text-gray-300 mt-auto">
-      <div className="max-w-7xl mx-auto px-8 py-8">
 
-        <div className="grid md:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {/* Logo */}
           <div>
+
             <h2 className="text-2xl font-bold text-white">
-              Stack<span className="text-orange-500">Overflow</span>
+              Mini
+              <span className="text-orange-500">
+                StackOverflow
+              </span>
             </h2>
 
-            <p className="mt-3 text-sm text-gray-400">
-              Plateforme communautaire pour poser des questions,
-              partager des connaissances et apprendre ensemble.
+            <p className="mt-4 text-sm leading-6 text-gray-400">
+              Plateforme communautaire permettant de poser des
+              questions techniques, partager des connaissances et
+              apprendre ensemble.
             </p>
+
           </div>
 
           {/* Navigation */}
           <div>
-            <h3 className="text-white font-semibold mb-3">
+
+            <h3 className="text-lg font-semibold text-white mb-4">
               Navigation
             </h3>
 
             <ul className="space-y-2">
+
               <li>
                 <NavLink
                   to="/"
@@ -36,7 +45,14 @@ const Footer = () => {
                 </NavLink>
               </li>
 
-             
+              <li>
+                <NavLink
+                  to="/ajouter_question"
+                  className="hover:text-orange-500 transition"
+                >
+                  Poser une question
+                </NavLink>
+              </li>
 
               <li>
                 <NavLink
@@ -46,32 +62,43 @@ const Footer = () => {
                   Profil
                 </NavLink>
               </li>
+
             </ul>
+
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-white font-semibold mb-3">
+
+            <h3 className="text-lg font-semibold text-white mb-4">
               Contact
             </h3>
 
-            <p className="text-sm">
-              📧 contact@monapp.com
-            </p>
+            <div className="space-y-2 text-sm">
 
-            <p className="text-sm mt-2">
-              📍 Sénégal
-            </p>
+              <p>📧 massesadio22@gmail.com</p>
+
+              <p>📍 Ziguinchor, Sénégal</p>
+
+              <p>📱 +221 78 251 13 36</p>
+
+            </div>
+
           </div>
 
         </div>
 
-        {/* Ligne de séparation */}
-        <div className="border-t border-slate-700 mt-8 pt-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Mon Stack Overflow Clone. Tous droits réservés.
+        {/* Bas du footer */}
+
+        <div className="border-t border-slate-700 mt-10 pt-6 text-center text-xs sm:text-sm text-gray-500">
+
+          © {new Date().getFullYear()} Mini StackOverflow —
+          Tous droits réservés.
+
         </div>
 
       </div>
+
     </footer>
   );
 };
