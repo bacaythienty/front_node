@@ -22,6 +22,7 @@ const Profil = () => {
 
 
 
+
   const verifierConnexion = async () => {
 
     const token = localStorage.getItem("token");
@@ -29,9 +30,7 @@ const Profil = () => {
 
     if(!token){
 
-      toast.error(
-        "Veuillez vous connecter"
-      );
+      toast.error("Veuillez vous connecter");
 
       navigate("/connexion");
 
@@ -60,13 +59,12 @@ const Profil = () => {
       setUser(res.data);
 
 
-
     }catch(error){
 
       console.log(error);
 
       toast.error(
-        "Impossible de récupérer votre profil"
+        "Impossible de récupérer le profil"
       );
 
       navigate("/connexion");
@@ -83,22 +81,16 @@ const Profil = () => {
     return (
 
       <div className="
-        min-h-screen
-        flex
-        items-center
-        justify-center
-        px-4
+      min-h-screen
+      flex
+      items-center
+      justify-center
       ">
 
-        <h2 className="
-          text-xl
-          md:text-2xl
-          font-bold
-        ">
-
+        <h2 className="text-xl font-bold">
           Chargement...
-
         </h2>
+
 
       </div>
 
@@ -109,362 +101,377 @@ const Profil = () => {
 
 
 
+return (
 
-  return (
 
-    <div className="
-      min-h-screen
-      bg-gray-100
-      py-6
-      md:py-10
-      px-4
-    ">
+<div className="
+min-h-screen
+bg-gray-100
+py-8
+px-4
+">
 
 
 
-      <div className="
-        max-w-6xl
-        mx-auto
-      ">
+<div className="
+max-w-6xl
+mx-auto
+">
 
 
 
 
-        {/* PROFIL */}
 
-        <div className="
-          bg-white
-          rounded-xl
-          shadow-lg
-          p-5
-          md:p-8
-        ">
+{/* PROFIL */}
 
 
+<div className="
+bg-white
+rounded-xl
+shadow-lg
+p-6
+">
 
-          <div className="
-            flex
-            flex-col
-            md:flex-row
-            items-center
-            gap-6
-          ">
 
+<div className="
+flex
+flex-col
+md:flex-row
+items-center
+gap-6
+">
 
 
-            <div className="
-              w-24
-              h-24
-              md:w-32
-              md:h-32
-              rounded-full
-              bg-blue-600
-              text-white
-              flex
-              items-center
-              justify-center
-              text-4xl
-              md:text-5xl
-              font-bold
-              shrink-0
-            ">
 
-              {user.prenom.charAt(0)}
 
-            </div>
 
+<div className="
+w-28
+h-28
+rounded-full
+bg-blue-600
+text-white
+flex
+items-center
+justify-center
+text-5xl
+font-bold
+">
 
 
+{user.prenom?.charAt(0)}
 
 
-            <div className="
-              flex-1
-              text-center
-              md:text-left
-            ">
+</div>
 
 
-              <h1 className="
-                text-2xl
-                md:text-3xl
-                font-bold
-                break-words
-              ">
 
-                {user.prenom} {user.nom}
 
-              </h1>
 
+<div className="
+flex-1
+text-center
+md:text-left
+">
 
 
-              <p className="
-                text-gray-600
-                mt-2
-                break-all
-              ">
+<h1 className="
+text-3xl
+font-bold
+">
 
-                {user.email}
 
-              </p>
+{user.prenom} {user.nom}
 
 
+</h1>
 
-              <p className="
-                text-gray-500
-                mt-2
-                text-sm
-              ">
 
 
-                Membre depuis :
 
-                {" "}
+<p className="text-gray-600 mt-2">
 
-                {new Date(
-                  user.createdAt
-                ).toLocaleDateString()}
+{user.email}
 
+</p>
 
-              </p>
 
 
-            </div>
 
+<p className="text-gray-500 mt-2">
 
+Membre depuis :
 
+{" "}
 
+{
+new Date(user.createdAt)
+.toLocaleDateString()
+}
 
-            <Link
 
-              to="/modifier_profil"
+</p>
 
-              className="
-                w-full
-                md:w-auto
-                text-center
-                bg-blue-600
-                hover:bg-blue-700
-                text-white
-                px-6
-                py-2
-                rounded-lg
-              "
 
-            >
+</div>
 
-              Modifier le profil
 
-            </Link>
 
 
 
-          </div>
 
+{/* SEUL LE PROPRIETAIRE VOIT LE BOUTON */}
 
-        </div>
+<Link
 
+to="/modifier_profil"
 
+className="
+bg-blue-600
+hover:bg-blue-700
+text-white
+px-6
+py-2
+rounded-lg
+"
 
+>
 
+Modifier le profil
 
 
+</Link>
 
-        {/* STATISTIQUES */}
 
 
-        <div className="
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          lg:grid-cols-4
-          gap-5
-          mt-6
-          md:mt-8
-        ">
+</div>
 
 
-          {[
-            {
-              value:user.questions,
-              label:"Questions",
-              color:"text-blue-600"
-            },
-            {
-              value:user.reponses,
-              label:"Réponses",
-              color:"text-green-600"
-            },
-            {
-              value:user.commentaires,
-              label:"Commentaires",
-              color:"text-purple-600"
-            },
-            {
-              value:user.reputation,
-              label:"Réputation",
-              color:"text-orange-600"
-            }
 
-          ].map((stat,index)=>(
+</div>
 
 
-            <div
-              key={index}
-              className="
-                bg-white
-                rounded-xl
-                shadow
-                p-6
-                text-center
-              "
-            >
 
-              <h2 className={`
-                text-3xl
-                md:text-4xl
-                font-bold
-                ${stat.color}
-              `}>
 
-                {stat.value}
 
-              </h2>
 
 
-              <p className="
-                mt-2
-                text-gray-600
-              ">
 
-                {stat.label}
 
-              </p>
+{/* STATISTIQUES */}
 
 
-            </div>
+<div className="
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-4
+gap-5
+mt-8
+">
 
 
-          ))}
+{
 
+[
+{
+value:user.questions || 0,
+label:"Questions"
+},
+{
+value:user.reponses || 0,
+label:"Réponses"
+},
+{
+value:user.commentaires || 0,
+label:"Commentaires"
+},
+{
+value:user.reputation || 0,
+label:"Réputation"
+}
 
-        </div>
+].map((stat,index)=>(
 
 
+<div
 
+key={index}
 
+className="
+bg-white
+rounded-xl
+shadow
+p-6
+text-center
+"
 
 
+>
 
-        {/* INFORMATIONS */}
 
+<h2 className="
+text-4xl
+font-bold
+text-blue-600
+">
 
-        <div className="
-          bg-white
-          rounded-xl
-          shadow-lg
-          p-5
-          md:p-8
-          mt-6
-          md:mt-8
-        ">
+{stat.value}
 
+</h2>
 
-          <h2 className="
-            text-xl
-            md:text-2xl
-            font-bold
-            mb-5
-          ">
 
-            Informations personnelles
 
-          </h2>
+<p className="
+mt-2
+text-gray-600
+">
 
+{stat.label}
 
+</p>
 
 
-          <div className="
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            gap-5
-          ">
 
+</div>
 
-            <div>
 
-              <label className="font-semibold">
-                Prénom
-              </label>
+))
 
-              <p className="text-gray-700 mt-1">
-                {user.prenom}
-              </p>
 
-            </div>
+}
 
 
 
-            <div>
+</div>
 
-              <label className="font-semibold">
-                Nom
-              </label>
 
-              <p className="text-gray-700 mt-1">
-                {user.nom}
-              </p>
 
-            </div>
 
 
 
-            <div>
 
-              <label className="font-semibold">
-                Email
-              </label>
 
-              <p className="text-gray-700 mt-1 break-all">
-                {user.email}
-              </p>
 
-            </div>
+{/* INFORMATIONS */}
 
 
+<div className="
+bg-white
+rounded-xl
+shadow
+p-6
+mt-8
+">
 
-            <div>
 
-              <label className="font-semibold">
-                Date d'inscription
-              </label>
+<h2 className="
+text-2xl
+font-bold
+mb-5
+">
 
-              <p className="text-gray-700 mt-1">
+Informations personnelles
 
-                {new Date(
-                  user.createdAt
-                ).toLocaleDateString()}
+</h2>
 
-              </p>
 
-            </div>
 
 
 
-          </div>
+<div className="
+grid
+md:grid-cols-2
+gap-5
+">
 
 
 
-        </div>
+<div>
 
+<p className="font-semibold">
+Prénom
+</p>
 
+<p>
+{user.prenom}
+</p>
 
-      </div>
+</div>
 
 
-    </div>
 
-  );
+
+
+<div>
+
+<p className="font-semibold">
+Nom
+</p>
+
+<p>
+{user.nom}
+</p>
+
+</div>
+
+
+
+
+
+<div>
+
+<p className="font-semibold">
+Email
+</p>
+
+<p>
+{user.email}
+</p>
+
+</div>
+
+
+
+
+
+<div>
+
+<p className="font-semibold">
+Date inscription
+</p>
+
+<p>
+
+{
+new Date(user.createdAt)
+.toLocaleDateString()
+}
+
+</p>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+);
+
 
 };
 

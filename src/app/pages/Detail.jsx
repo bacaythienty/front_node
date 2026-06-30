@@ -18,16 +18,27 @@ const Detail = () => {
 
   const [question, setQuestion] = useState(null);
   const [votes, setVotes] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
 
   useEffect(() => {
+
     getQuestion();
+
+    const user = localStorage.getItem("user");
+
+    if(user){
+      setCurrentUser(JSON.parse(user));
+    }
+
   }, [id]);
 
 
+
   const getQuestion = async () => {
+
     try {
 
       const res = await axios.get(
@@ -37,10 +48,15 @@ const Detail = () => {
       setQuestion(res.data);
       setVotes(res.data.votes || 0);
 
+
     } catch(error){
+
       console.log(error);
+
     }
+
   };
+
 
 
   const handleVote = async () => {
@@ -48,12 +64,15 @@ const Detail = () => {
     const token = localStorage.getItem("token");
 
     if(!token){
+
       toast.error("Connectez-vous pour voter");
       return;
+
     }
 
 
     try {
+
 
       await axios.post(
         `${API_URL}/api/questions/${id}/upvote`,
@@ -65,6 +84,7 @@ const Detail = () => {
         }
       );
 
+
       getQuestion();
 
 
@@ -72,7 +92,7 @@ const Detail = () => {
 
       toast.error(
         error.response?.data?.message ||
-        "Erreur lors du vote"
+        "Erreur vote"
       );
 
     }
@@ -81,22 +101,30 @@ const Detail = () => {
 
 
 
+
   const supprimerQuestion = async()=>{
+
 
     const token = localStorage.getItem("token");
 
+
     if(!token){
+
       toast.error("Connectez-vous");
       return;
+
     }
 
 
+
     if(!window.confirm(
-      "Voulez-vous vraiment supprimer cette question ?"
+      "Voulez-vous supprimer cette question ?"
     )) return;
 
 
+
     try{
+
 
       await axios.delete(
         `${API_URL}/api/questions/${id}`,
@@ -108,14 +136,13 @@ const Detail = () => {
       );
 
 
-      toast.success(
-        "Question supprimée avec succès"
-      );
+      toast.success("Question supprimée");
 
       navigate("/");
 
 
     }catch(error){
+
 
       toast.error(
         error.response?.data?.message ||
@@ -128,283 +155,238 @@ const Detail = () => {
 
 
 
+
+
   if(!question){
 
     return (
-      <div className="
-        text-center
-        mt-10
-        text-lg
-      ">
+
+      <div className="text-center mt-10">
+
         Chargement...
+
       </div>
+
     );
 
   }
 
 
 
+
   return (
 
-    <div className="
-      max-w-5xl
-      mx-auto
-      px-4
-      py-6
-      md:px-8
-    ">
 
+<div className="max-w-5xl mx-auto px-4 py-6 md:px-8">
 
-      {/* TITRE */}
 
-      <h1 className="
-        text-2xl
-        md:text-4xl
-        font-bold
-        mb-4
-        break-words
-      ">
+<h1 className="text-2xl md:text-4xl font-bold mb-4">
 
-        {question.title}
+{question.title}
 
-      </h1>
+</h1>
 
 
 
-      {/* AUTEUR */}
 
-      <div className="
-        flex
-        flex-col
-        sm:flex-row
-        gap-3
-        sm:gap-6
-        text-gray-500
-        mb-6
-      ">
+<div className="flex flex-col sm:flex-row gap-4 text-gray-500 mb-6">
 
-        <span>
-          👤 {question.author?.prenom}{" "}
-          {question.author?.nom}
-        </span>
 
+<span>
 
-        <span>
-          📅{" "}
-          {new Date(
-            question.createdAt
-          ).toLocaleDateString()}
-        </span>
+👤 {question.author?.prenom} {question.author?.nom}
 
-      </div>
+</span>
 
 
 
+<span>
 
-      {/* DESCRIPTION */}
+📅 {new Date(
+question.createdAt
+).toLocaleDateString()}
 
-      <div className="
-        bg-white
-        shadow
-        rounded-xl
-        p-4
-        md:p-6
-      ">
+</span>
 
-        <p className="
-          text-gray-700
-          leading-relaxed
-          text-sm
-          md:text-base
-        ">
 
-          {question.description}
+</div>
 
-        </p>
 
-      </div>
 
 
+<div className="bg-white shadow rounded-xl p-6">
 
+<p className="text-gray-700">
 
-      {/* TAGS */}
+{question.description}
 
-      <div className="
-        flex
-        flex-wrap
-        gap-2
-        mt-5
-      ">
+</p>
 
+</div>
 
-        {question.tags?.map(
-          (tag,index)=>(
 
-          <span
-            key={index}
-            className="
-              bg-blue-100
-              text-blue-700
-              px-3
-              py-1
-              rounded-full
-              text-sm
-            "
-          >
 
-            #{tag}
 
-          </span>
 
-        ))}
+<div className="flex flex-wrap gap-2 mt-5">
 
-      </div>
 
+{
+question.tags?.map((tag,index)=>(
 
+<span
+key={index}
+className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
+>
 
+#{tag}
 
-      {/* VOTE */}
+</span>
 
-      <div className="mt-6">
+))
 
-        <button
+}
 
-          onClick={handleVote}
 
-          className="
-            w-full
-            sm:w-auto
-            bg-green-500
-            hover:bg-green-600
-            text-white
-            px-5
-            py-2
-            rounded-lg
-          "
+</div>
 
-        >
 
-          👍 {votes} vote{votes > 1 ? "s":""}
 
-        </button>
 
 
-      </div>
+<div className="mt-6">
 
 
+<button
 
+onClick={handleVote}
 
-      {/* ACTIONS */}
+className="
+bg-green-500
+text-white
+px-5
+py-2
+rounded-lg
+"
 
-      <div className="
-        flex
-        flex-col
-        sm:flex-row
-        gap-3
-        mt-5
-      ">
+>
 
+👍 {votes} vote{votes>1?"s":""}
 
-        <Link
+</button>
 
-          to={`/modifier_question/${question._id}`}
 
-          className="
-            text-center
-            bg-yellow-500
-            hover:bg-yellow-600
-            text-white
-            px-4
-            py-2
-            rounded-lg
-          "
+</div>
 
-        >
 
-          Modifier
 
-        </Link>
 
 
 
-        <button
 
-          onClick={supprimerQuestion}
+{/* seulement le propriétaire */}
 
-          className="
-            bg-red-600
-            hover:bg-red-700
-            text-white
-            px-4
-            py-2
-            rounded-lg
-          "
+{
 
-        >
+currentUser &&
+question.author?._id === currentUser._id && (
 
-          Supprimer
 
-        </button>
+<div className="flex gap-3 mt-5">
 
 
-      </div>
+<Link
 
+to={`/modifier_question/${question._id}`}
 
+className="
+bg-yellow-500
+text-white
+px-4
+py-2
+rounded-lg
+"
 
+>
 
+Modifier
 
-      {/* COMMENTAIRES */}
+</Link>
 
-      <div className="mt-10">
 
 
-        <h2 className="
-          text-xl
-          md:text-2xl
-          font-bold
-          mb-4
-        ">
+<button
 
-          Commentaires
+onClick={supprimerQuestion}
 
-        </h2>
+className="
+bg-red-600
+text-white
+px-4
+py-2
+rounded-lg
+"
 
+>
 
-        <Commentaires questionId={id}/>
+Supprimer
 
+</button>
 
-      </div>
 
+</div>
 
 
+)
 
-      {/* REPONSE */}
+}
 
-      <div className="mt-10">
 
 
-        <h2 className="
-          text-xl
-          md:text-2xl
-          font-bold
-          mb-4
-        ">
 
-          Répondre à la question
 
-        </h2>
+<div className="mt-10">
 
 
-        <ReponseForm questionId={id}/>
+<h2 className="text-2xl font-bold mb-4">
 
+Commentaires
 
-      </div>
+</h2>
 
 
+<Commentaires questionId={id}/>
 
-    </div>
 
-  );
+</div>
+
+
+
+
+
+
+<div className="mt-10">
+
+
+<h2 className="text-2xl font-bold mb-4">
+
+Répondre à la question
+
+</h2>
+
+
+<ReponseForm questionId={id}/>
+
+
+</div>
+
+
+
+</div>
+
+
+);
+
 
 };
 
