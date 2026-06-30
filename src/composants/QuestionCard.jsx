@@ -10,7 +10,7 @@ import {
 const QuestionCard = ({ question }) => {
   return (
     <Link to={`/detail/${question._id}`}>
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 p-5">
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 p-5 mb-4">
 
         {/* Titre */}
         <h2 className="text-xl font-bold text-blue-600 hover:text-blue-700">
