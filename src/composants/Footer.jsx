@@ -74,15 +74,7 @@ const Footer = () => {
               Contact
             </h3>
 
-            <div className="space-y-2 text-sm">
-
-              <p>📧 massesadio22@gmail.com</p>
-
-              <p>📍 Ziguinchor, Sénégal</p>
-
-              <p>📱 +221 78 251 13 36</p>
-
-            </div>
+           
 
           </div>
 
